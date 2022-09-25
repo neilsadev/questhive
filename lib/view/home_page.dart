@@ -19,6 +19,10 @@ class _HomePageState extends State<HomePage> {
       "Some Name",
       false,
     ],
+    [
+      "Some Other Name",
+      false,
+    ],
   ];
 
   // methods
@@ -45,6 +49,12 @@ class _HomePageState extends State<HomePage> {
         );
       },
     );
+  }
+
+  void deleteTask(int index) {
+    setState(() {
+      questList.remove(questList[index]);
+    });
   }
 
   void checkBoxChanged(
@@ -75,6 +85,7 @@ class _HomePageState extends State<HomePage> {
               value,
               index,
             ),
+            deleteFunction: (context) => deleteTask(index),
           );
         },
       ),
