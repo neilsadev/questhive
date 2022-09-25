@@ -35,6 +35,9 @@ class _HomePageState extends State<HomePage> {
       ]);
       _controller.clear();
     });
+    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+      content: Text("Quest Added"),
+    ));
     Navigator.of(context).pop();
   }
 
@@ -55,6 +58,9 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       questList.remove(questList[index]);
     });
+    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+      content: Text("Quest Deleted"),
+    ));
   }
 
   void checkBoxChanged(
