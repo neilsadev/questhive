@@ -1,7 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 class QuestsPage extends StatelessWidget {
   final String questName;
@@ -18,22 +15,33 @@ class QuestsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(25.0),
+      padding: const EdgeInsets.only(
+        left: 25.0,
+        right: 25.0,
+        top: 25.0,
+      ),
       child: Container(
         padding: const EdgeInsets.all(24),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12),
+        ),
         child: Row(
           children: [
             Checkbox(
               value: isTaskCompleted,
               onChanged: onChanged,
+              activeColor: Colors.black,
             ),
             // quest title
-            Text("some text"),
+            Text(
+              questName,
+              style: TextStyle(
+                  decoration: isTaskCompleted
+                      ? TextDecoration.lineThrough
+                      : TextDecoration.none),
+            ),
           ],
-        ),
-        decoration: BoxDecoration(
-          color: Colors.cyan,
-          borderRadius: BorderRadius.circular(12),
         ),
       ),
     );

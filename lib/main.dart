@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Quest Hive',
       theme: ThemeData(
-        primarySwatch: Colors.cyan,
+        primarySwatch: Colors.amber,
       ),
       home: const HomePage(),
     );
