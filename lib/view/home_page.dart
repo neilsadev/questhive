@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/adapters.dart';
+import 'package:questhive/model/database.dart';
 import 'package:questhive/view/utilities/dialogue_box.dart';
 import 'package:questhive/view/utilities/quest.dart';
 
@@ -10,31 +12,24 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final _myBox = Hive.box('mybox');
   // text cpmtroller
   final _controller = TextEditingController();
 
   // list of todo task
-  List questList = [
-    [
-      "Some Name",
-      false,
-    ],
-    [
-      "Some Other Name",
-      false,
-    ],
-  ];
+  QuestDataBase db = QuestDataBase();
 
   // methods
 
   void saveNewTask() {
     setState(() {
-      questList.add([
+      db.questList.add([
         _controller.text,
         false,
       ]);
       _controller.clear();
     });
+    db.updateDataBase();
     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
       content: Text("Quest Added"),
     ));
@@ -56,8 +51,9 @@ class _HomePageState extends State<HomePage> {
 
   void deleteTask(int index) {
     setState(() {
-      questList.remove(questList[index]);
+      db.questList.remove(db.questList[index]);
     });
+    db.updateDataBase();
     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
       content: Text("Quest Deleted"),
     ));
@@ -68,8 +64,20 @@ class _HomePageState extends State<HomePage> {
     int index,
   ) {
     setState(() {
-      questList[index][1] = !questList[index][1];
+      db.questList[index][1] = !db.questList[index][1];
     });
+    db.updateDataBase();
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    if (_myBox.get("QUESTLIST") == null) {
+      db.createInitialData();
+    } else {
+      db.loadData();
+    }
+    super.initState();
   }
 
   @override
@@ -82,11 +90,11 @@ class _HomePageState extends State<HomePage> {
         elevation: 0,
       ),
       body: ListView.builder(
-        itemCount: questList.length,
+        itemCount: db.questList.length,
         itemBuilder: (context, index) {
           return QuestsPage(
-            questName: questList[index][0],
-            isTaskCompleted: questList[index][1],
+            questName: db.questList[index][0],
+            isTaskCompleted: db.questList[index][1],
             onChanged: (value) => checkBoxChanged(
               value,
               index,
